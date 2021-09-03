@@ -1,11 +1,15 @@
-import './App.scss';
+import "./App.scss";
 import { ChakraProvider } from "@chakra-ui/react";
 import Editor from "./pages/Editor";
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <ChakraProvider>
-      <Editor />
+      <div className="main-container">
+        <Editor />
+        <Footer />
+      </div>
     </ChakraProvider>
   );
 }
