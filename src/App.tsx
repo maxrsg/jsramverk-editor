@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import { ChakraProvider } from "@chakra-ui/react";
 import Editor from "./pages/Editor";
 

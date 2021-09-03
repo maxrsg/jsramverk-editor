@@ -1,0 +1,29 @@
+
+.quill {
+    // background-color: #edf2f7;
+    background-color: #edf2f7;
+    // border: 1px solid #1A202C !important; 
+    border-radius: 5px;
+
+    .ql-toolbar {
+        border: none !important;
+        border-bottom: 1px solid #1A202C !important; 
+        margin-bottom: 10px;
+    }
+
+    .ql-container {
+        border: none !important;
+        border-radius: 5px;
+        .ql-snow {
+            border: none !important;
+        }
+    }
+
+    .ql-editor {
+        min-height: 600px;
+
+        ::before {
+            font-size: 25px;
+        }
+    }
+}
