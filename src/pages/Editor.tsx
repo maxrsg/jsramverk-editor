@@ -9,7 +9,15 @@ export default function Editor() {
   const [value, setValue] = useState("");
 
   return (
-    <Container minW="100%" minH="80vh" bg="gray.100" centerContent p="0">
+    <Container
+      minW="100%"
+      minH="90vh"
+      bg="gray.100"
+      centerContent
+      p="0"
+      display="flex"
+      className="editor-container"
+    >
       <Toolbar editorData={value} />
       <Box padding="4" w="60%" m="0" mt="50px" mb="50px" boxShadow="xl">
         <ReactQuill
