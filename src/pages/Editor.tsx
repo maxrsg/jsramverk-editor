@@ -5,7 +5,14 @@ import { Box, Container } from "@chakra-ui/react";
 import Toolbar from "../components/Toolbar";
 import "./Editor.scss";
 
-export default function Editor() {
+export const EDITOR_URL_ID = "/editor/:id";
+export const EDITOR_URL = "/editor";
+
+interface IeditorProps {
+  id?: String;
+}
+
+export default function Editor(props: IeditorProps) {
   const [value, setValue] = useState("");
 
   return (
