@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import {
-  Box,
-  Container,
-  Input,
-  InputLeftAddon,
-  InputGroup,
-  Flex,
-} from "@chakra-ui/react";
+import { Box, Container, Input, InputGroup, Flex } from "@chakra-ui/react";
 import Toolbar from "../components/Toolbar";
 import "./Editor.scss";
 import { useParams } from "react-router";
 import { IrecievedData, getOneDocument } from "../data/Documents";
-import BounceLoader from "react-spinners/BounceLoader";
 import { ClipLoader } from "react-spinners";
 
 export const EDITOR_URL_ID = "/editor/:id";
@@ -27,8 +19,16 @@ export default function Editor() {
   const [title, setTitle] = useState<string>("");
 
   useEffect(() => {
+    const getDocumentData = async () => {
+      if (id) {
+        const data = await getOneDocument(id);
+        setDocumentData(data);
+        setToolbarEdit(true);
+      }
+    };
+
     getDocumentData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (documentData) {
@@ -36,14 +36,6 @@ export default function Editor() {
       setTitle(documentData.data.title);
     }
   }, [documentData]);
-
-  const getDocumentData = async () => {
-    if (id) {
-      const data = await getOneDocument(id);
-      setDocumentData(data);
-      setToolbarEdit(true);
-    }
-  };
 
   const handleTitleChange = (title: any) => {
     setTitle(title.target.value);

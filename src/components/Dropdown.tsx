@@ -21,20 +21,20 @@ export default function Dropdown(props: IdataToFormat) {
   const history = useHistory();
 
   useEffect(() => {
+    const formatData = () => {
+      if (props.documents) {
+        let formatted: Array<IselectElement> = [];
+        props.documents.data.forEach((e: Document) => {
+          let doc = { value: e._id, label: e.title };
+          formatted.push(doc);
+        });
+        setSelectData(formatted);
+      }
+    };
+
     formatData();
     setSelectedDocument(null);
   }, [props]);
-
-  const formatData = () => {
-    if (props.documents) {
-      let formatted: Array<IselectElement> = [];
-      props.documents.data.forEach((e: Document) => {
-        let doc = { value: e._id, label: e.title };
-        formatted.push(doc);
-      });
-      setSelectData(formatted);
-    }
-  };
 
   const handleChange = (selected: any) => {
     setSelectedDocument(selected);
