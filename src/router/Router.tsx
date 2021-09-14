@@ -1,4 +1,4 @@
-import { BrowserRouter, Route } from "react-router-dom";
+import { HashRouter, Route } from "react-router-dom";
 
 import Start, { START_URL } from "../pages/Start";
 import Editor, { EDITOR_URL, EDITOR_URL_ID } from "../pages/Editor";
@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 
 export function Router() {
   return (
-    <BrowserRouter>
+    <HashRouter basename="/editor">
       <Route exact path={START_URL}>
         <div className="main-container">
           <Start />
@@ -25,6 +25,6 @@ export function Router() {
           <Footer />
         </div>
       </Route>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
