@@ -22,10 +22,10 @@ export default function Toolbar(props: Idata) {
     }
   };
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     if (props.editorData) {
       if (props.editorData.title && props.editorData.data) {
-        createNewDocument(props.editorData.title, props.editorData.data);
+        await createNewDocument(props.editorData.title, props.editorData.data);
         history.push("/");
       }
     }
