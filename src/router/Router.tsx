@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 
 export function Router() {
   return (
-    <HashRouter basename="/editor">
+    <HashRouter basename="/">
       <Route exact path={START_URL}>
         <div className="main-container">
           <Start />
