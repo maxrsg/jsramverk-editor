@@ -14,26 +14,30 @@ export async function getAllDocuments() {
   try {
     const { data } = await axios.get(process.env.REACT_APP_API + "/docs");
     documents = data;
-    console.log(documents);
     return documents;
   } catch (e) {
     console.log(e);
   }
 }
 
+export interface IrecievedData {
+  data: Document;
+}
+
 /**
  * Fetches all documents from api
  */
 export async function getOneDocument(id: string) {
-  let document: Document;
+  let document: IrecievedData;
 
   try {
     const { data } = await axios.get(process.env.REACT_APP_API + `/docs/${id}`);
     document = data;
-    console.log(document);
+
     return document;
   } catch (e) {
     console.log(e);
+    return null;
   }
 }
 

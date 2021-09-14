@@ -48,7 +48,11 @@ export default function Dropdown(props: IdataToFormat) {
   return (
     <Flex w="100%">
       <Box w="50%">
-        <Select options={selectData} onChange={handleChange} />
+        <Select
+          options={selectData}
+          onChange={handleChange}
+          placeholder="Choose existing document..."
+        />
       </Box>
       <Button
         bg="cyan.400"

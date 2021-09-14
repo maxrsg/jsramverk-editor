@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Box, Button, Container } from "@chakra-ui/react";
 import Toolbar from "../components/Toolbar";
 import "./Editor.scss";
 import { getAllDocuments } from "../data/Documents";
-import Editor from "./Editor";
 import Dropdown from "../components/Dropdown";
 import { useHistory } from "react-router";
 
@@ -17,7 +15,6 @@ export default function Start() {
 
   useEffect(() => {
     getDocumentData();
-    console.log(documents);
   }, []);
 
   const getDocumentData = async () => {
@@ -41,7 +38,7 @@ export default function Start() {
     >
       <Toolbar empty={true} />
       <Box padding="4" w="60%" m="0" mt="50px" mb="50px" boxShadow="xl">
-        <Button bg="cyan.400" size="sm" onClick={redirect}>
+        <Button bg="cyan.400" size="sm" onClick={redirect} mb="1rem">
           Create new
         </Button>
         <Dropdown documents={documents} />
