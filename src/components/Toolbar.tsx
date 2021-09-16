@@ -11,9 +11,9 @@ interface Idata {
 export default function Toolbar(props: Idata) {
   const history = useHistory();
 
-  const handleUpdate = () => {
+  const handleUpdate = async (e: any) => {
     if (props.editorData) {
-      updateDocument(
+      await updateDocument(
         props.editorData._id,
         props.editorData.title,
         props.editorData.data
