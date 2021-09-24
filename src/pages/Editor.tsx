@@ -96,6 +96,7 @@ export default function Editor() {
           <Input
             value={title}
             onChange={handleTitleChange}
+            placeholder="Title..."
             borderColor="black"
           />
         </InputGroup>

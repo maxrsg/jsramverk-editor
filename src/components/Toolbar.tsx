@@ -11,7 +11,7 @@ interface Idata {
 export default function Toolbar(props: Idata) {
   const history = useHistory();
 
-  const handleUpdate = async (e: any) => {
+  const handleUpdate = async () => {
     if (props.editorData) {
       await updateDocument(
         props.editorData._id,
@@ -56,6 +56,13 @@ export default function Toolbar(props: Idata) {
       </Flex>
     );
   } else {
+    let disabled: boolean = true;
+    if (props.editorData) {
+      if (props.editorData.title && props.editorData.data) {
+        disabled = false;
+      }
+    }
+
     return (
       <Flex w="100%" h="50px" bg="gray.800" m="0">
         <Link as={RouteLink} to="/" p="1rem" color="#fff">
@@ -63,7 +70,12 @@ export default function Toolbar(props: Idata) {
         </Link>
         <Spacer />
         <Center w="5%" mr="20%">
-          <Button bg="cyan.400" size="sm" onClick={handleCreate}>
+          <Button
+            isDisabled={disabled}
+            bg="cyan.400"
+            size="sm"
+            onClick={handleCreate}
+          >
             Create
           </Button>
         </Center>
