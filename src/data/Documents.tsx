@@ -25,7 +25,8 @@ export interface IrecievedData {
 }
 
 /**
- * Fetches all documents from api
+ * Fetches one specific document from api
+ * @param id id of document to fetch
  */
 export async function getOneDocument(id: string) {
   let document: IrecievedData;
