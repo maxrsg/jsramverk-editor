@@ -6,6 +6,10 @@ export interface Document {
   data: string;
 }
 
+export interface IrecievedData {
+  data: Document;
+}
+
 /**
  * Fetches all documents from api
  */
@@ -18,10 +22,6 @@ export async function getAllDocuments() {
   } catch (e) {
     console.log(e);
   }
-}
-
-export interface IrecievedData {
-  data: Document;
 }
 
 /**

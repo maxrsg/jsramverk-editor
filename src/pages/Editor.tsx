@@ -7,9 +7,13 @@ import "./Editor.scss";
 import { useParams } from "react-router";
 import { IrecievedData, getOneDocument } from "../data/Documents";
 import { ClipLoader } from "react-spinners";
+import socketIOClient from "socket.io-client";
 
 export const EDITOR_URL_ID = "/editor/:id";
 export const EDITOR_URL = "/editor";
+const ENDPOINT = process.env.REACT_APP_API || "http://localhost:1337";
+
+const socket = socketIOClient(ENDPOINT);
 
 export default function Editor() {
   const { id } = useParams<Record<string, string | undefined>>();
@@ -24,6 +28,8 @@ export default function Editor() {
         const data = await getOneDocument(id);
         setDocumentData(data);
         setToolbarEdit(true);
+
+        socket.emit("create", id);
       }
     };
 
@@ -39,6 +45,21 @@ export default function Editor() {
 
   const handleTitleChange = (title: any) => {
     setTitle(title.target.value);
+  };
+
+  socket.on("doc", (data) => {
+    setTitle(data.title);
+    setEditorValue(data.data);
+  });
+
+  const updateDocumentViaSocket = () => {
+    const docData = {
+      _id: id,
+      title: title,
+      data: editorValue,
+    };
+
+    socket.emit("doc", docData);
   };
 
   const showToolbar = () => {
@@ -96,6 +117,7 @@ export default function Editor() {
           <Input
             value={title}
             onChange={handleTitleChange}
+            onKeyUp={updateDocumentViaSocket}
             placeholder="Title..."
             borderColor="black"
           />
@@ -104,6 +126,7 @@ export default function Editor() {
           theme="snow"
           value={editorValue}
           onChange={setEditorValue}
+          onKeyUp={updateDocumentViaSocket}
           placeholder="..."
         />
       </Box>
