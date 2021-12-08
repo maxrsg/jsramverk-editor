@@ -1,5 +1,7 @@
 import { Flex, Button, Spacer, Center, Link } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { Link as RouteLink, useHistory } from "react-router-dom";
+import Cookies from "universal-cookie";
 import { createNewDocument, updateDocument, Document } from "../data/Documents";
 
 interface Idata {
@@ -10,6 +12,14 @@ interface Idata {
 
 export default function Toolbar(props: Idata) {
   const history = useHistory();
+  const cookies = new Cookies();
+  const [isLoggedIn, setLoggedIn] = useState<Boolean>(false);
+
+  useEffect(() => {
+    if (cookies.get("token")) {
+      setLoggedIn(true);
+    }
+  }, []);
 
   const handleUpdate = async () => {
     if (props.editorData) {
@@ -31,12 +41,29 @@ export default function Toolbar(props: Idata) {
     }
   };
 
+  const renderLogin = () => {
+    if (!isLoggedIn) {
+      return (
+        <Link as={RouteLink} to="/login" p="1rem" color="#fff">
+          Login
+        </Link>
+      );
+    } else {
+      return (
+        <Link as={RouteLink} to="/profile" p="1rem" color="#fff">
+          Profile
+        </Link>
+      );
+    }
+  };
+
   if (props.edit) {
     return (
       <Flex w="100%" h="50px" bg="gray.800" m="0">
         <Link as={RouteLink} to="/" p="1rem" color="#fff">
           Home
         </Link>
+        {renderLogin()}
         <Spacer />
         <Center w="5%" mr="20%">
           <Button bg="cyan.400" size="sm" onClick={handleUpdate}>
@@ -51,6 +78,7 @@ export default function Toolbar(props: Idata) {
         <Link as={RouteLink} to="/" p="1rem" color="#fff">
           Home
         </Link>
+        {renderLogin()}
         <Spacer />
         <Center w="5%" mr="20%"></Center>
       </Flex>
@@ -68,6 +96,7 @@ export default function Toolbar(props: Idata) {
         <Link as={RouteLink} to="/" p="1rem" color="#fff">
           Home
         </Link>
+        {renderLogin()}
         <Spacer />
         <Center w="5%" mr="20%">
           <Button

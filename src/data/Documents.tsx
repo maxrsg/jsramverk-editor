@@ -1,14 +1,27 @@
 import axios from "axios";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 export interface Document {
   _id: string;
   title: string;
   data: string;
+  allowed_users?: Array<String>;
 }
 
 export interface IrecievedData {
   data: Document;
 }
+
+const checkForToken = () => {
+  const token = cookies.get("token");
+  if (token) {
+    axios.defaults.headers.common["x-access-token"] = token;
+  } else {
+    delete axios.defaults.headers.common["x-access-token"];
+  }
+};
 
 /**
  * Fetches all documents from api
@@ -16,8 +29,11 @@ export interface IrecievedData {
 export async function getAllDocuments() {
   let documents: Array<Document> = [];
   try {
+    checkForToken();
+
     const { data } = await axios.get(process.env.REACT_APP_API + "/docs");
     documents = data;
+
     return documents;
   } catch (e) {
     console.log(e);
@@ -30,8 +46,9 @@ export async function getAllDocuments() {
  */
 export async function getOneDocument(id: string) {
   let document: IrecievedData;
-
   try {
+    checkForToken();
+
     const { data } = await axios.get(process.env.REACT_APP_API + `/docs/${id}`);
     document = data;
 
@@ -71,6 +88,8 @@ export async function updateDocument(
   title: string,
   content: string
 ) {
+  checkForToken();
+
   let updatedDocument = {
     id: id,
     title: title,

@@ -4,14 +4,17 @@ import { Box, Button, Container } from "@chakra-ui/react";
 import Toolbar from "../components/Toolbar";
 import "./Editor.scss";
 import { getAllDocuments } from "../data/Documents";
-import Dropdown from "../components/Dropdown";
+// import Dropdown from "../components/Dropdown";
 import { useHistory } from "react-router";
+import Cookies from "universal-cookie";
+import ShowDocuments from "../components/ShowDocs";
 
 export const START_URL = "/";
 
 export default function Start() {
   const [documents, setDocuments] = useState<any>();
   const history = useHistory();
+  const cookies = new Cookies();
 
   useEffect(() => {
     getDocumentData();
@@ -20,11 +23,16 @@ export default function Start() {
   const getDocumentData = async () => {
     const data = await getAllDocuments();
     setDocuments(data);
+    console.log(data);
   };
 
   const redirect = () => {
     history.push("/editor");
   };
+
+  if (!cookies.get("token")) {
+    history.push("/login");
+  }
 
   return (
     <Container
@@ -38,10 +46,16 @@ export default function Start() {
     >
       <Toolbar empty={true} />
       <Box padding="4" w="60%" m="0" mt="50px" mb="50px" boxShadow="xl">
-        <Button bg="cyan.400" size="sm" onClick={redirect} mb="1rem">
+        <Button
+          bg="cyan.400"
+          fontWeight="700"
+          size="sm"
+          onClick={redirect}
+          mb="1rem"
+        >
           Create new
         </Button>
-        <Dropdown documents={documents} />
+        <ShowDocuments></ShowDocuments>
       </Box>
     </Container>
   );
