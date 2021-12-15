@@ -8,6 +8,7 @@ interface Idata {
   editorData?: Document | null;
   empty?: Boolean;
   edit?: Boolean;
+  creator?: string;
 }
 
 export default function Toolbar(props: Idata) {
@@ -19,15 +20,17 @@ export default function Toolbar(props: Idata) {
     if (cookies.get("token")) {
       setLoggedIn(true);
     }
-  }, []);
+  }, [cookies]);
 
   const handleUpdate = async () => {
     if (props.editorData) {
+      console.log(props.editorData);
       await updateDocument(
         props.editorData._id,
         props.editorData.title,
         props.editorData.data,
-        props.editorData.allowedUsers
+        props.editorData.allowedUsers,
+        props.creator
       );
       window.location.reload();
     }

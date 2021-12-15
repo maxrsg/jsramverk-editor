@@ -97,7 +97,8 @@ export async function updateDocument(
   id: string,
   title: string,
   content: string,
-  allowedUsers: Array<String>
+  allowedUsers: Array<String>,
+  creator: string = ""
 ) {
   checkForToken();
 
@@ -106,6 +107,7 @@ export async function updateDocument(
     title: title,
     data: content,
     allowedUsers: allowedUsers,
+    creator: creator,
   };
 
   try {

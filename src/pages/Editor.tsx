@@ -23,6 +23,14 @@ interface selectElement {
   value: string;
 }
 
+interface docData {
+  _id: string | undefined;
+  title: string;
+  data: string;
+  allowedUsers: Array<string>;
+  creator?: string;
+}
+
 export default function Editor() {
   const { id } = useParams<Record<string, string | undefined>>();
   const { docId } = useParams<Record<string, string | undefined>>();
@@ -33,6 +41,7 @@ export default function Editor() {
   const [title, setTitle] = useState<string>("");
   const [addedUsers, setAddedUsers] = useState<OptionsType<selectElement>>();
   const [allowedUsers, setAllowedUsers] = useState(Array<string>());
+  const [documentId, setDocumentId] = useState<string>("");
 
   useEffect(() => {
     const getDocumentData = async () => {
@@ -40,12 +49,14 @@ export default function Editor() {
         const data = await getOneDocument(docId, creator);
         setDocumentData(data);
         setToolbarEdit(true);
+        setDocumentId(docId);
 
         socket.emit("create", docId);
       } else if (id) {
         const data = await getOneDocument(id);
         setDocumentData(data);
         setToolbarEdit(true);
+        setDocumentId(id);
 
         socket.emit("create", id);
       }
@@ -86,27 +97,32 @@ export default function Editor() {
   });
 
   const updateDocumentViaSocket = () => {
-    const docData = {
-      _id: id,
+    const docData: docData = {
+      _id: documentId,
       title: title,
       data: editorValue,
       allowedUsers: allowedUsers,
     };
+    console.log("id:" + documentId);
+    if (creator) {
+      docData["creator"] = creator;
+    }
 
     socket.emit("doc", docData);
   };
 
   const showToolbar = () => {
-    if (id !== undefined) {
+    if (documentId !== undefined) {
       return (
         <Toolbar
           editorData={{
-            _id: id,
+            _id: documentId,
             title: title,
             data: editorValue,
             allowedUsers: allowedUsers,
           }}
           edit={toolbarEdit}
+          creator={creator}
         />
       );
     } else {
@@ -124,7 +140,7 @@ export default function Editor() {
     }
   };
 
-  if ((id && !documentData) || (docId && !documentData)) {
+  if (documentId && !documentData) {
     return (
       <Container
         minW="100%"

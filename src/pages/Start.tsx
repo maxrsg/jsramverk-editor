@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import { Box, Button, Container } from "@chakra-ui/react";
 import Toolbar from "../components/Toolbar";
 import "./Editor.scss";
-import { getAllDocuments } from "../data/Documents";
-// import Dropdown from "../components/Dropdown";
 import { useHistory } from "react-router";
 import Cookies from "universal-cookie";
 import ShowDocuments from "../components/ShowDocs";
@@ -12,19 +9,8 @@ import ShowDocuments from "../components/ShowDocs";
 export const START_URL = "/";
 
 export default function Start() {
-  const [documents, setDocuments] = useState<any>();
   const history = useHistory();
   const cookies = new Cookies();
-
-  useEffect(() => {
-    getDocumentData();
-  }, []);
-
-  const getDocumentData = async () => {
-    const data = await getAllDocuments();
-    setDocuments(data);
-    console.log(data);
-  };
 
   const redirect = () => {
     history.push("/editor");
