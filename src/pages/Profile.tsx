@@ -1,8 +1,7 @@
 import "react-quill/dist/quill.snow.css";
-import { Box, Button, Container, Heading, Link, Text } from "@chakra-ui/react";
+import { Box, Button, Container, Heading, Text } from "@chakra-ui/react";
 import Toolbar from "../components/Toolbar";
 import "./Editor.scss";
-import { LoginForm } from "../components/LoginForm";
 import Cookies from "universal-cookie";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -20,7 +19,7 @@ export default function Profile() {
       setLoggedIn(true);
     }
     setEmail(cookies.get("email"));
-  }, []);
+  });
 
   const logOut = () => {
     cookies.remove("token");

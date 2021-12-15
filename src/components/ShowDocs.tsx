@@ -29,7 +29,7 @@ export default function ShowDocuments() {
 
   if (documents) {
     return (
-      <Flex w="100%">
+      <Flex w="100%" flexDirection="column">
         <Box w="100%">
           <Table variant="striped" colorScheme="cyan">
             <Thead>
@@ -41,11 +41,37 @@ export default function ShowDocuments() {
             </Thead>
             <Tbody>
               {documents.data.map((doc: any) => {
-                console.log(doc);
                 return (
                   <Tr key={doc._id}>
                     <Td fontWeight="600">
                       <Link color="cyan.800" to={`/editor/${doc._id}`}>
+                        {doc.title}
+                      </Link>
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          </Table>
+        </Box>
+        <Box w="100%" mt="20px">
+          <Table variant="striped" colorScheme="cyan">
+            <Thead>
+              <Tr>
+                <Th fontWeight="800" color="gray.800">
+                  Documents shared with you:
+                </Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {documents.shared.map((doc: any) => {
+                return (
+                  <Tr key={doc._id}>
+                    <Td fontWeight="600">
+                      <Link
+                        color="cyan.800"
+                        to={`/editor/${doc._id}/${doc.creator}`}
+                      >
                         {doc.title}
                       </Link>
                     </Td>

@@ -7,7 +7,7 @@ export interface Document {
   _id: string;
   title: string;
   data: string;
-  allowed_users?: Array<String>;
+  allowedUsers: Array<String>;
 }
 
 export interface IrecievedData {
@@ -33,7 +33,7 @@ export async function getAllDocuments() {
 
     const { data } = await axios.get(process.env.REACT_APP_API + "/docs");
     documents = data;
-
+    console.log(data);
     return documents;
   } catch (e) {
     console.log(e);
@@ -44,12 +44,17 @@ export async function getAllDocuments() {
  * Fetches one specific document from api
  * @param id id of document to fetch
  */
-export async function getOneDocument(id: string) {
+export async function getOneDocument(id: string, creator: string = "") {
   let document: IrecievedData;
   try {
     checkForToken();
+    let url = `/docs/${id}`;
 
-    const { data } = await axios.get(process.env.REACT_APP_API + `/docs/${id}`);
+    if (creator) {
+      url += `/${creator}`;
+    }
+
+    const { data } = await axios.get(process.env.REACT_APP_API + url);
     document = data;
 
     return document;
@@ -64,10 +69,15 @@ export async function getOneDocument(id: string) {
  * @param title title of the document
  * @param content document content
  */
-export async function createNewDocument(title: string, content: string) {
+export async function createNewDocument(
+  title: string,
+  content: string,
+  allowedUsers: Array<String>
+) {
   let newDocument = {
     title: title,
     data: content,
+    allowedUsers: allowedUsers,
   };
 
   try {
@@ -86,7 +96,8 @@ export async function createNewDocument(title: string, content: string) {
 export async function updateDocument(
   id: string,
   title: string,
-  content: string
+  content: string,
+  allowedUsers: Array<String>
 ) {
   checkForToken();
 
@@ -94,6 +105,7 @@ export async function updateDocument(
     id: id,
     title: title,
     data: content,
+    allowedUsers: allowedUsers,
   };
 
   try {

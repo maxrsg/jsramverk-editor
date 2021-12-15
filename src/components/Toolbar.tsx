@@ -26,7 +26,8 @@ export default function Toolbar(props: Idata) {
       await updateDocument(
         props.editorData._id,
         props.editorData.title,
-        props.editorData.data
+        props.editorData.data,
+        props.editorData.allowedUsers
       );
       window.location.reload();
     }
@@ -35,7 +36,11 @@ export default function Toolbar(props: Idata) {
   const handleCreate = async () => {
     if (props.editorData) {
       if (props.editorData.title && props.editorData.data) {
-        await createNewDocument(props.editorData.title, props.editorData.data);
+        await createNewDocument(
+          props.editorData.title,
+          props.editorData.data,
+          props.editorData.allowedUsers
+        );
         history.push("/");
       }
     }

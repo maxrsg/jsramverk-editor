@@ -1,7 +1,11 @@
 import { HashRouter, Route } from "react-router-dom";
 
 import Start, { START_URL } from "../pages/Start";
-import Editor, { EDITOR_URL, EDITOR_URL_ID } from "../pages/Editor";
+import Editor, {
+  EDITOR_URL,
+  EDITOR_URL_ID,
+  EDITOR_URL_CREATOR,
+} from "../pages/Editor";
 import Footer from "../components/Footer";
 import Login, { LOGIN_URL } from "../pages/Login";
 import Register, { REGISTER_URL } from "../pages/Register";
@@ -23,6 +27,12 @@ export function Router() {
         </div>
       </Route>
       <Route exact path={EDITOR_URL_ID}>
+        <div className="main-container">
+          <Editor />
+          <Footer />
+        </div>
+      </Route>
+      <Route exact path={EDITOR_URL_CREATOR}>
         <div className="main-container">
           <Editor />
           <Footer />

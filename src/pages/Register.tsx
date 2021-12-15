@@ -1,19 +1,7 @@
-import React, { useEffect, useState } from "react";
 import "react-quill/dist/quill.snow.css";
-import {
-  Box,
-  Button,
-  Container,
-  Heading,
-  Link,
-  SimpleGrid,
-  Text,
-  useColorModeValue,
-  VisuallyHidden,
-} from "@chakra-ui/react";
+import { Box, Container, Heading } from "@chakra-ui/react";
 import Toolbar from "../components/Toolbar";
 import "./Editor.scss";
-import { useHistory } from "react-router";
 import { RegisterForm } from "../components/RegisterForm";
 
 export const REGISTER_URL = "/register";
