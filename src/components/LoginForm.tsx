@@ -13,6 +13,9 @@ import {
   Stack,
   useDisclosure,
   useColorModeValue as mode,
+  Alert,
+  AlertTitle,
+  AlertIcon,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
@@ -24,6 +27,7 @@ export const LoginForm = (props: HTMLChakraProps<"form">) => {
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const { isOpen, onToggle } = useDisclosure();
+  const [errorDisplay, setErrorDisplay] = useState<string>("none");
 
   const inputRef = useRef<HTMLInputElement>(null);
   const history = useHistory();
@@ -45,10 +49,12 @@ export const LoginForm = (props: HTMLChakraProps<"form">) => {
     <chakra.form
       onSubmit={async (e) => {
         e.preventDefault();
-
+        setErrorDisplay("none");
         let res = await loginUser(email, password);
-        console.log(res);
-        if (res.type === "success") {
+
+        if (res == null) {
+          setErrorDisplay("flex");
+        } else if (res.type === "success") {
           cookies.set("token", res.token, { path: "/" });
           cookies.set("email", res.user.email, { path: "/" });
           history.push("/");
@@ -96,6 +102,10 @@ export const LoginForm = (props: HTMLChakraProps<"form">) => {
             />
           </InputGroup>
         </FormControl>
+        <Alert status="error" variant="top-accent" d={errorDisplay}>
+          <AlertIcon />
+          <AlertTitle mr={2}>Invalid login credentials!</AlertTitle>
+        </Alert>
         <Button type="submit" colorScheme="cyan" size="lg" fontSize="md">
           Sign in
         </Button>
