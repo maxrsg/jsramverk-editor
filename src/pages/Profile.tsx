@@ -22,8 +22,8 @@ export default function Profile() {
   });
 
   const logOut = () => {
-    cookies.remove("token");
-    cookies.remove("email");
+    cookies.remove("token", { path: "/" });
+    cookies.remove("email", { path: "/" });
     history.push("/login");
   };
 
