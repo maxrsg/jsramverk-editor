@@ -7,6 +7,8 @@ import { LoginForm } from "../components/LoginForm";
 export const LOGIN_URL = "/login";
 
 export default function Login() {
+  const url = process.env.REACT_APP_URL + `/#/register`;
+  console.log(url);
   return (
     <Container
       minW="100%"
@@ -24,7 +26,7 @@ export default function Login() {
         </Heading>
         <Text mt="4" mb="8" align="center" fontWeight="medium">
           <Text as="span">Don&apos;t have an account? </Text>
-          <Link color="cyan.700" href="/#/register">
+          <Link color="cyan.700" href={url}>
             Register here!
           </Link>
         </Text>

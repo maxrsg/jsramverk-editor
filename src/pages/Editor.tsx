@@ -10,6 +10,7 @@ import { IrecievedData, getOneDocument } from "../data/Documents";
 import { ClipLoader } from "react-spinners";
 import socketIOClient from "socket.io-client";
 import { OptionsType } from "react-select/src/types";
+import Cookies from "universal-cookie";
 
 export const EDITOR_URL_ID = "/editor/:id";
 export const EDITOR_URL_CREATOR = "/editor/:docId/:creator";
@@ -27,6 +28,7 @@ interface docData {
   _id: string | undefined;
   title: string;
   data: string;
+  user?: string;
   allowedUsers: Array<string>;
   creator?: string;
 }
@@ -42,6 +44,8 @@ export default function Editor() {
   const [addedUsers, setAddedUsers] = useState<OptionsType<selectElement>>();
   const [allowedUsers, setAllowedUsers] = useState(Array<string>());
   const [documentId, setDocumentId] = useState<string>("");
+  const [user, setUser] = useState<string>("");
+  const cookies = new Cookies();
 
   useEffect(() => {
     const getDocumentData = async () => {
@@ -82,6 +86,12 @@ export default function Editor() {
     }
   }, [addedUsers]);
 
+  useEffect(() => {
+    if (cookies.get("email")) {
+      setUser(cookies.get("email"));
+    }
+  }, [cookies]);
+
   const handleTitleChange = (title: any) => {
     setTitle(title.target.value);
   };
@@ -101,9 +111,10 @@ export default function Editor() {
       _id: documentId,
       title: title,
       data: editorValue,
+      user: user,
       allowedUsers: allowedUsers,
     };
-    console.log("id:" + documentId);
+
     if (creator) {
       docData["creator"] = creator;
     }
